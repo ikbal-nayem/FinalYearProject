@@ -25,8 +25,10 @@ def unskip():
 
 class Main:    
     def __init__(self):
+        print('Initializing tools...', end="")
         self.process = ProcessImage(MIN_CONF_LEVEL)
         self.pTime = 0
+        print('Done')
 
     def FPS(self, frame):
         cTime = time.time()
@@ -38,6 +40,7 @@ class Main:
     def start(self):
         global AUTHORIZED
         global SKIP
+        print('Start video capturing...')
         capture = cv2.VideoCapture("test_video.mp4")
         # capture = cv2.VideoCapture(0)
         while True:
@@ -61,7 +64,7 @@ class Main:
                             SKIP = True
                             skip = th.Timer(0.3, unskip)
                             skip.start()
-                    self.process.drawRectangleAndLabel(frame, faces)
+                    # self.process.drawRectangleAndLabel(frame, faces)
             self.FPS(frame)     # Draw FPS
 
             cv2.imshow('Camera Output', frame)

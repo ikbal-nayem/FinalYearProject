@@ -1,11 +1,10 @@
 import cv2
-import os, time
+import time
 
 
 class ProcessImage:
 	def __init__(self, MIN_CONF_LEVEL):
-		cv2_base_dir = os.path.dirname(os.path.abspath(cv2.__file__))
-		haar_model = os.path.join(cv2_base_dir, 'data/haarcascade_frontalface_default.xml')
+		haar_model = 'haarcascade_frontalface_default.xml'
 		self.cascade = cv2.CascadeClassifier(haar_model)
 		self.MIN_CONF_LEVEL = MIN_CONF_LEVEL
 		self.red = (0, 10, 255)
