@@ -25,10 +25,8 @@ def unskip():
 
 class Main:    
     def __init__(self):
-        print('Initializing tools...', end="")
-        self.process = ProcessImage(MIN_CONF_LEVEL)
+        # self.process = ProcessImage(MIN_CONF_LEVEL)
         self.pTime = 0
-        print('Done')
 
     def FPS(self, frame):
         cTime = time.time()
@@ -38,33 +36,33 @@ class Main:
 
 
     def start(self):
-        global AUTHORIZED
-        global SKIP
+        # global AUTHORIZED
+        # global SKIP
         print('Start video capturing...')
         capture = cv2.VideoCapture("test_video.mp4")
         # capture = cv2.VideoCapture(0)
         while True:
             check, frame = capture.read()
             # frame = cv2.resize(frame, (640, 480))
-            has_face = self.process.detectFace(frame)
-            if has_face and not AUTHORIZED  and not SKIP:
-                faces = onlineRecognition(frame)
-                if len(faces['faces']) > 0:
-                    for face in faces['faces']:
-                        confidence = "{:.2f}".format(face['top_prediction']['confidence']*100)
-                        if float(confidence) > MIN_CONF_LEVEL:
-                            timer = th.Timer(5.0, setUnathorized)
-                            AUTHORIZED = True
+            # has_face = self.process.detectFace(frame)
+            # if has_face and not AUTHORIZED  and not SKIP:
+            #     faces = onlineRecognition(frame)
+            #     if len(faces['faces']) > 0:
+            #         for face in faces['faces']:
+            #             confidence = "{:.2f}".format(face['top_prediction']['confidence']*100)
+            #             if float(confidence) > MIN_CONF_LEVEL:
+            #                 timer = th.Timer(10.0, setUnathorized)
+            #                 AUTHORIZED = True
 
-                            # Do somthing after authentication
+            #                 # Do somthing after authentication
 
-                            print('({})[{}] unlocking the system'.format(face['top_prediction']['label'], confidence))
-                            timer.start()
-                        else:
-                            SKIP = True
-                            skip = th.Timer(0.3, unskip)
-                            skip.start()
-                    # self.process.drawRectangleAndLabel(frame, faces)
+            #                 print('({})[{}] unlocking the system'.format(face['top_prediction']['label'], confidence))
+            #                 timer.start()
+            #             else:
+            #                 SKIP = True
+            #                 skip = th.Timer(0.5, unskip)
+            #                 skip.start()
+            #         # self.process.drawRectangleAndLabel(frame, faces)
             self.FPS(frame)     # Draw FPS
 
             cv2.imshow('Camera Output', frame)
@@ -79,5 +77,7 @@ class Main:
 
 
 if __name__ == "__main__":
+    print('Initializing tools...', end="")
     main = Main()
+    print('Done')
     main()
