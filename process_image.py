@@ -25,5 +25,5 @@ class ProcessImage:
 			left = int(face['bounding_box']['left'])
 			right = int(face['bounding_box']['right'])
 			cv2.rectangle(frame, (left, top), (right, bottom), self.green if float(confidence)>self.MIN_CONF_LEVEL else self.red , 1)
-			face_label = str(f"{face['top_prediction']['label']} ({confidence})") if float(confidence)>self.MIN_CONF_LEVEL else "?"
+			face_label = "{} ({})".format(face['top_prediction']['label'], confidence) if float(confidence)>self.MIN_CONF_LEVEL else "?"
 			cv2.putText(frame, face_label, (left, top), cv2.LINE_AA, .5, self.label_color, 2)
