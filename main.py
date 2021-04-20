@@ -25,7 +25,7 @@ def unskip():
 
 class Main:    
     def __init__(self):
-        # self.process = ProcessImage(MIN_CONF_LEVEL)
+        self.process = ProcessImage(MIN_CONF_LEVEL)
         self.pTime = 0
 
     def FPS(self, frame):
@@ -44,7 +44,7 @@ class Main:
         while True:
             check, frame = capture.read()
             # frame = cv2.resize(frame, (640, 480))
-            # has_face = self.process.detectFace(frame)
+            has_face = self.process.detectFace(frame)
             # if has_face and not AUTHORIZED  and not SKIP:
             #     faces = onlineRecognition(frame)
             #     if len(faces['faces']) > 0:
