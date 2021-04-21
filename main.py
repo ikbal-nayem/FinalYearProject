@@ -69,7 +69,7 @@ class Main:
                             skipFrame(1)
                     # self.process.drawRectangleAndLabel(frame, faces)
             else:
-                skipFrame(0.5)
+                skipFrame(1)
             self.FPS(frame)     # Draw FPS
 
             cv2.imshow('Camera Output', frame)
