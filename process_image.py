@@ -13,7 +13,7 @@ class ProcessImage:
 
 	def detectFace(self, frame):
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-		rects = self.cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=4, minSize=(60,60))
+		rects = self.cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=4, minSize=(100,100))
 		return True if len(rects)>0 else False
 
 	def drawRectangleAndLabel(self, frame, faces):
