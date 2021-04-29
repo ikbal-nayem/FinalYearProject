@@ -70,7 +70,7 @@ class Main:
                             timer.start()
                         else:
                             skipFrame(1)
-                    self.process.drawRectangleAndLabel(frame, faces)
+                    # self.process.drawRectangleAndLabel(frame, faces)
             # else:
             #     skipFrame(1)
             # self.FPS(frame)     # Draw FPS

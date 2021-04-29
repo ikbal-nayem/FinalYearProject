@@ -9,5 +9,5 @@ URL = 'https://facenet-facerecognition.herokuapp.com'
 def onlineRecognition(frame):
 	image = cv2.imencode(".jpg", frame)[1]
 	file = {"image": ("image.jpg", image.tobytes(), 'image/jpeg', {'Expires': '0'})}
-	resp = requests.post(f'{URL}/recognize', files=file)
+	resp = requests.post('{}/recognize'.format(URL), files=file)
 	return(resp.json())
