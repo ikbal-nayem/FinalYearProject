@@ -4,10 +4,13 @@ import threading as th
 from online_action import onlineRecognition
 from process_image import ProcessImage
 
+######################## Settings ############################
 
+blur_level = 300    # Image maximum blur level to send request to recognition server (less value means more blur)
+MIN_CONF_LEVEL = 80 # Minimum confidence level to unlock the system
+UNLOCK_TIME = 5.0  # System unlock time after recognition successful
 
-MIN_CONF_LEVEL = 80
-UNLOCK_TIME = 10.0   # in sec
+##############################################################
 
 AUTHORIZED = False
 SKIP = False
@@ -32,7 +35,7 @@ def unskip():
 
 class Main:    
     def __init__(self):
-        self.process = ProcessImage(MIN_CONF_LEVEL)
+        self.process = ProcessImage(MIN_CONF_LEVEL, blur_level)
         self.pTime = 0
 
     def FPS(self, frame):
@@ -50,9 +53,9 @@ class Main:
         # capture = cv2.VideoCapture(0)
         while True:
             check, frame = capture.read()
-            # frame = cv2.resize(frame, (640, 480))
-            has_face = self.process.detectFace(frame) if not SKIP else False
-            if has_face and not AUTHORIZED:
+            frame = self.process.reshape(frame)     # Resize the source image
+            has_face, is_blur = self.process.detectFace(frame) if not SKIP else False
+            if has_face and not is_blur and not AUTHORIZED:
                 faces = onlineRecognition(frame)
                 if len(faces['faces']) > 0:
                     for face in faces['faces']:
@@ -67,14 +70,18 @@ class Main:
                             timer.start()
                         else:
                             skipFrame(1)
-                    # self.process.drawRectangleAndLabel(frame, faces)
-            else:
-                skipFrame(1)
-            self.FPS(frame)     # Draw FPS
+                    self.process.drawRectangleAndLabel(frame, faces)
+            # else:
+            #     skipFrame(1)
+            # self.FPS(frame)     # Draw FPS
 
-            cv2.imshow('Camera Output', frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-              break
+            try:
+                cv2.imshow('Camera Output', frame)
+            except:
+                print('End of frame')
+                break
+            if cv2.waitKey(20) & 0xFF == ord('q'):
+                break
 
         capture.release()
         cv2.destroyAllWindows()
