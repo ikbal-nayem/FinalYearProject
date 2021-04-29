@@ -26,8 +26,8 @@ class ProcessImage:
 
 	def detectFace(self, frame):
 		try:
-			gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-			rects = self.cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=4, minSize=(100,100))
+			# gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+			rects = self.cascade.detectMultiScale(frame, scaleFactor=1.3, minNeighbors=4, minSize=(100,100))
 			is_blur = False
 			if len(rects)>0:
 				for (x, y, w, h) in rects:
