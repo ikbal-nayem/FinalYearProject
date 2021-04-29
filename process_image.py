@@ -26,12 +26,11 @@ class ProcessImage:
 
 	def detectFace(self, frame):
 		try:
-			# gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 			rects = self.cascade.detectMultiScale(frame, scaleFactor=1.3, minNeighbors=4, minSize=(100,100))
 			is_blur = False
 			if len(rects)>0:
 				for (x, y, w, h) in rects:
-					roi = gray[y+30:y+h-30, x+30:x+w-30]
+					roi = frame[y+30:y+h-30, x+30:x+w-30]
 					laplacian = cv2.Laplacian(roi, cv2.CV_64F).var()
 					is_blur = True if laplacian<self.blur_level else False
 					if not is_blur:
