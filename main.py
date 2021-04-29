@@ -8,7 +8,7 @@ from process_image import ProcessImage
 
 blur_level = 300    # Image maximum blur level to send request to recognition server (less value means more blur)
 MIN_CONF_LEVEL = 80 # Minimum confidence level to unlock the system
-UNLOCK_TIME = 5.0  # System unlock time after recognition successful
+UNLOCK_TIME = 10.0  # System unlock time after recognition successful
 
 ##############################################################
 
@@ -80,7 +80,7 @@ class Main:
             except:
                 print('End of frame')
                 break
-            if cv2.waitKey(20) & 0xFF == ord('q'):
+            if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
         capture.release()
