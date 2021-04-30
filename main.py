@@ -54,7 +54,7 @@ class Main:
         while True:
             check, frame = capture.read()
             frame = self.process.reshape(frame)     # Resize the source image
-            has_face, is_blur = self.process.detectFace(frame) if not SKIP else False
+            has_face, is_blur = self.process.detectFace(frame) if not SKIP else (False, False)
             if has_face and not is_blur and not AUTHORIZED:
                 print('[Face Found] Sending to the server...')
                 faces = onlineRecognition(frame)
@@ -81,7 +81,8 @@ class Main:
             # except:
             #     print('End of frame')
             #     break
-            if cv2.waitKey(1) & 0xFF == ord('q'):
+            if cv2.waitKey(1) & 0xFF == ord('q') or not check:
+                print('Bye Bye!')
                 break
 
         capture.release()
