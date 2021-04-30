@@ -7,8 +7,8 @@ from process_image import ProcessImage
 ######################## Settings ############################
 
 blur_level = 300    # Image maximum blur level to send request to recognition server (less value means more blur)
-MIN_CONF_LEVEL = 90 # Minimum confidence level to unlock the system
-UNLOCK_TIME = 15.0  # System unlock time after recognition successful
+MIN_CONF_LEVEL = 95 # Minimum confidence level to unlock the system
+UNLOCK_TIME = 10.0  # System unlock time after recognition successful
 
 ##############################################################
 
@@ -53,11 +53,14 @@ class Main:
         # capture = cv2.VideoCapture(0)
         while True:
             check, frame = capture.read()
+            if SKIP or AUTHORIZED:
+                continue
             frame = self.process.reshape(frame)     # Resize the source image
-            has_face, is_blur = self.process.detectFace(frame) if not SKIP else (False, False)
-            if has_face and not is_blur and not AUTHORIZED:
-                print('[Face Found] Sending to the server...')
+            has_face, is_blur = self.process.detectFace(frame)
+            if has_face and not is_blur:
+                print('[Face Found] Sending to the server...', end="")
                 faces = onlineRecognition(frame)
+                print('Respond')
                 if len(faces['faces']) > 0:
                     for face in faces['faces']:
                         confidence = "{:.2f}".format(face['top_prediction']['confidence']*100)
@@ -67,13 +70,13 @@ class Main:
 
                             # Do somthing after authentication
 
-                            print('({})[{}] unlocked the system'.format(face['top_prediction']['label'], confidence))
+                            print('({})[{}] unlocked the system for {}sec'.format(face['top_prediction']['label'], confidence, UNLOCK_TIME))
                             timer.start()
-                        else:
-                            skipFrame(1)
+                        # else:
+                        #     skipFrame(1)
                     # self.process.drawRectangleAndLabel(frame, faces)
             else:
-                skipFrame(1)
+                skipFrame(2)
             # self.FPS(frame)     # Draw FPS
 
             # try:
