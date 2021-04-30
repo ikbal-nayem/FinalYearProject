@@ -7,7 +7,7 @@ from process_image import ProcessImage
 ######################## Settings ############################
 
 blur_level = 300    # Image maximum blur level to send request to recognition server (less value means more blur)
-MIN_CONF_LEVEL = 80 # Minimum confidence level to unlock the system
+MIN_CONF_LEVEL = 90 # Minimum confidence level to unlock the system
 UNLOCK_TIME = 15.0  # System unlock time after recognition successful
 
 ##############################################################
