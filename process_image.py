@@ -2,7 +2,7 @@ import cv2
 
 
 class ProcessImage:
-	MAX_WIDTH = 680
+	MAX_WIDTH = 640
 
 	def __init__(self, MIN_CONF_LEVEL, blur_level):
 		haar_model = 'haarcascade_frontalface_default.xml'

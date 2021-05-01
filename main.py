@@ -60,7 +60,7 @@ class Main:
             if has_face and not is_blur:
                 print('[Face Found] Sending to the server...', end="")
                 faces = onlineRecognition(frame)
-                print('Respond')
+                print('{} Faces'.format(len(faces['faces'])))
                 if len(faces['faces']) > 0:
                     for face in faces['faces']:
                         confidence = "{:.2f}".format(face['top_prediction']['confidence']*100)
@@ -76,7 +76,7 @@ class Main:
                         #     skipFrame(1)
                     # self.process.drawRectangleAndLabel(frame, faces)
             else:
-                skipFrame(2)
+                skipFrame(3)
             # self.FPS(frame)     # Draw FPS
 
             # try:
