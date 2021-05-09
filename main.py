@@ -3,7 +3,7 @@ print('Please wait the system is loading...')
 import cv2
 import time
 import threading as th
-from online_action import onlineRecognition
+from online_action import Action
 from process_image import ProcessImage
 
 ######################## Settings ############################
@@ -16,76 +16,80 @@ UNLOCK_TIME = 10.0  # System unlock time after recognition successful
 
 ##############################################################
 
-AUTHORIZED = False
-SKIP = False
 
+
+AUTHORIZED = False
 
 def setUnathorized():
 	global AUTHORIZED
 	AUTHORIZED = False
 	print('System locked!')
 
-def skipFrame(skip_time):
-	global SKIP
-	SKIP = True
-	skip = th.Timer(skip_time, unskip)
-	skip.start()
-
-def unskip():
-	global SKIP
-	SKIP = False
 
 
-
-class Main:    
+class Main:
 
 	def __init__(self):
 		self.process = ProcessImage(MIN_CONF_LEVEL, blur_level, FRAME_SIZE)
+		self.action = Action()
+		self.SKIP = False
+		self.attempt = 1
+
+
+	def skipFrame(self, skip_time):
+		self.SKIP = True
+		skip = th.Timer(skip_time, self.unskip)
+		skip.start()
+
+
+	def unskip(self): self.SKIP = False
+
+
+	def checkFaces(self, faces, frame):
+		global AUTHORIZED
+		for face in faces['faces']:
+			confidence = "{:.2f}".format(face['top_prediction']['confidence']*100)
+			if float(confidence) > MIN_CONF_LEVEL:
+				timer = th.Timer(UNLOCK_TIME, setUnathorized)
+				AUTHORIZED = True
+
+				# Do somthing after authentication
+
+				print('[\033[1;32mSUCCESS\033[0;0m]\033[32m({} {}%) unlocking the system for {} sec\033[0m'.format(face['top_prediction']['label'], confidence, UNLOCK_TIME))
+				timer.start()
+				break
+		if not AUTHORIZED:
+			self.attempt += 1
+			print('[\033[1;33mFAILED\033[0;0m] {} Unknown face/s detected!'.format(len(faces['faces'])))
+			if self.attempt > MAX_ATTEMPT:
+				print('[\033[1;31mUNAUTHORIZED\033[0;0m] Sending message to the admin...')
+				# Do something about unauthorized person
+				# self.action.unauthorized(frame)
+
 
 	def capture(self):
-		global AUTHORIZED
-		global SKIP
-		attempt = 1
+		self.attempt = 1
 		print('Start video capturing...')
 		capture = cv2.VideoCapture("videoplayback.mp4")
 		# capture = cv2.VideoCapture(0)
 		while True:
 			success, frame = capture.read()
 			if not success:
-				print('End of frame')
+				print('End of frames')
 				break
-			if SKIP:
-				continue
+			if self.SKIP: continue
 			frame = self.process.reshape(frame)     # Resize the source image
 			has_face, is_blur = self.process.detectFace(frame)
 			if has_face and not is_blur:
-				print('[\033[0;36mATTEMPT {}\033[0;0m] Trying to recognize...'.format(attempt))
-				faces = onlineRecognition(frame)
+				print('[\033[0;36mATTEMPT {}\033[0;0m] Trying to recognize...'.format(self.attempt))
+				faces = self.action.onlineRecognition(frame)
 				if len(faces['faces']) > 0:
-					for face in faces['faces']:
-						confidence = "{:.2f}".format(face['top_prediction']['confidence']*100)
-						if float(confidence) > MIN_CONF_LEVEL:
-							timer = th.Timer(UNLOCK_TIME, setUnathorized)
-							AUTHORIZED = True
+					self.checkFaces(faces, frame)
 
-							# Do somthing after authentication
-
-							print('[\033[1;32mSUCCESS\033[0;0m]({}-{}%) unlocked the system for {}sec'.format(face['top_prediction']['label'], confidence, UNLOCK_TIME))
-							timer.start()
-							break
-						# else:
-							# skipFrame(1)
-					if not AUTHORIZED:
-						attempt += 1
-						print('[\033[1;33mFAILED\033[0;0m] {} Unknown face/s detected!'.format(len(faces['faces'])))
-						if attempt > MAX_ATTEMPT:
-							print('[\033[1;31mUNAUTHORIZED\033[0;0m] Sending message to the admin...')
-							# Do something about unauthorized person
-			else:
-				skipFrame(.1)
+			self.skipFrame(.1)
 
 			cv2.imshow('Camera Output', frame)
-			if cv2.waitKey(1) & 0xFF == ord('q') or attempt > MAX_ATTEMPT or AUTHORIZED:
+			if cv2.waitKey(1) & 0xFF == ord('q') or self.attempt > MAX_ATTEMPT or AUTHORIZED:
 				print('Stop capturing.')
 				break
 

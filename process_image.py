@@ -3,10 +3,10 @@ import cv2
 
 class ProcessImage:
 
-	def __init__(self, MIN_CONF_LEVEL, blur_level, FRAME_SIZE):
+	def __init__(self, MIN_CONF_LEVEL, blur_level, FRAME_SIZE=640):
 		haar_model = 'haarcascade_frontalface_default.xml'
 		self.cascade = cv2.CascadeClassifier(haar_model)
-		self.FRAME_SIZE = FRAME_SIZE or 640
+		self.MAX_WIDTH = FRAME_SIZE
 		self.MIN_CONF_LEVEL = MIN_CONF_LEVEL
 		self.blur_level = blur_level
 		self.red = (0, 10, 255)
