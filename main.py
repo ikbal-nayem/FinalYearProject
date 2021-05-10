@@ -64,7 +64,7 @@ class Main:
 			if self.attempt > MAX_ATTEMPT:
 				print('[\033[1;31mUNAUTHORIZED\033[0;0m] Sending message to the admin...')
 				# Do something about unauthorized person
-				# self.action.unauthorized(frame)
+				self.action.unauthorized(frame)
 
 
 	def capture(self):
@@ -88,7 +88,7 @@ class Main:
 
 			self.skipFrame(.1)
 
-			cv2.imshow('Camera Output', frame)
+			# cv2.imshow('Camera Output', frame)
 			if cv2.waitKey(1) & 0xFF == ord('q') or self.attempt > MAX_ATTEMPT or AUTHORIZED:
 				print('Stop capturing.')
 				break
