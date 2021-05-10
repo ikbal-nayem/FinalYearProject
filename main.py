@@ -70,7 +70,7 @@ class Main:
 	def capture(self):
 		self.attempt = 1
 		print('Start video capturing...')
-		capture = cv2.VideoCapture("videoplayback.mp4")
+		capture = cv2.VideoCapture("test_video.mp4")
 		# capture = cv2.VideoCapture(0)
 		while True:
 			success, frame = capture.read()
@@ -86,7 +86,7 @@ class Main:
 				if len(faces['faces']) > 0:
 					self.checkFaces(faces, frame)
 
-			self.skipFrame(.1)
+			self.skipFrame(.5)
 
 			# cv2.imshow('Camera Output', frame)
 			if cv2.waitKey(1) & 0xFF == ord('q') or self.attempt > MAX_ATTEMPT or AUTHORIZED:
