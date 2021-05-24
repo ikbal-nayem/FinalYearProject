@@ -9,8 +9,9 @@ from process_image import ProcessImage
 ######################## Settings ############################
 
 FRAME_SIZE = 720	# Video frame width
+MAX_EMPTY = 20		# Number of frame without any faces to stop capturing video
 MAX_ATTEMPT = 5		# Try to recognize person
-blur_level = 300    # Image maximum blur level to send request to recognition server (less value means more blur)
+blur_level = 100    # Image maximum blur level to send request to recognition server (less value means more blur)
 MIN_CONF_LEVEL = 95 # Minimum confidence level to unlock the system
 UNLOCK_TIME = 10.0  # System unlock time after recognition successful
 
@@ -34,6 +35,7 @@ class Main:
 		self.action = Action()
 		self.SKIP = False
 		self.attempt = 1
+		self.frame_with_no_face = 0
 
 
 	def skipFrame(self, skip_time):
@@ -54,6 +56,7 @@ class Main:
 				AUTHORIZED = True
 
 				# Do somthing after authentication
+				self.action.authorized(frame)
 
 				print('[\033[1;32mSUCCESS\033[0;0m]\033[32m({} {}%) unlocking the system for {} sec\033[0m'.format(face['top_prediction']['label'], confidence, UNLOCK_TIME))
 				timer.start()
@@ -63,15 +66,17 @@ class Main:
 			print('[\033[1;33mFAILED\033[0;0m] {} Unknown face/s detected!'.format(len(faces['faces'])))
 			if self.attempt > MAX_ATTEMPT:
 				print('[\033[1;31mUNAUTHORIZED\033[0;0m] Sending message to the admin...')
+				
 				# Do something about unauthorized person
 				self.action.unauthorized(frame)
 
 
 	def capture(self):
 		self.attempt = 1
+		frame_with_no_face = 0
 		print('Start video capturing...')
 		capture = cv2.VideoCapture("test_video.mp4")
-		# capture = cv2.VideoCapture(0)
+		# capture = cv2.VideoCapture("http://192.168.31.10:8888")
 		while True:
 			success, frame = capture.read()
 			if not success:
@@ -86,10 +91,12 @@ class Main:
 				if len(faces['faces']) > 0:
 					self.checkFaces(faces, frame)
 
+			frame_with_no_face = 0 if has_face else frame_with_no_face+1
+
 			self.skipFrame(.5)
 
-			# cv2.imshow('Camera Output', frame)
-			if cv2.waitKey(1) & 0xFF == ord('q') or self.attempt > MAX_ATTEMPT or AUTHORIZED:
+			cv2.imshow('Camera Output', frame)
+			if cv2.waitKey(1) & 0xFF == ord('q') or self.attempt>MAX_ATTEMPT or AUTHORIZED or frame_with_no_face>MAX_EMPTY:
 				print('Stop capturing.')
 				break
 

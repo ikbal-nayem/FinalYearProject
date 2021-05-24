@@ -41,3 +41,14 @@ class Action:
 			image_url=image_url,
 			buttons=[{'title': 'Open Door'}, {'title': 'Set Alert'}]
 		)
+
+	def authorized(self, image_frame=None):
+		image = self.cv2ToImage(image_frame)
+		img_info = self.storage.child("messenger/images/{}".format(image[0])).put(image[1])
+		image_url = self.storage.child(img_info['name']).get_url(img_info['downloadTokens'])
+		resp = self.message.genericTemplate(
+			title="Welcome Home!",
+			subtitle="Welcome back admin.",
+			image_url=image_url,
+			buttons=[{'title': 'Lock The Door'}]
+		)

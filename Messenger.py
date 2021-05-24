@@ -21,13 +21,11 @@ class MessageTemplate():
 			} for btn in buttons]
 
 		temp = {
-				  "recipient":{
-					"id": senderID
-				  },
-				  "message":{
-					"attachment":{
-					  "type":"template",
-					  "payload":{
+			"recipient":{"id": senderID},
+			"message":{
+				"attachment":{
+					"type":"template",
+					"payload":{
 						"template_type":"generic",
 						"elements":[
 						   {
@@ -35,17 +33,17 @@ class MessageTemplate():
 							"image_url": image_url,
 							"subtitle": subtitle,
 							"default_action": {
-							  "type": "web_url",
-							  "url": image_url,
-							  "webview_height_ratio": "tall",
+								"type": "web_url",
+								"url": image_url,
+								"webview_height_ratio": "tall",
 							},
 							"buttons": button_list    
-						  }
+							}
 						]
-					  }
 					}
-				  }
 				}
+			}
+		}
 		resp = requests.post(self.url, json=temp)
 		return resp.json()
 
