@@ -5,7 +5,7 @@ from gpiozero import Buzzer
 class RPi_Action:
 	def __init__(self):
 		self.beep = Beeper()
-
+		self.door = Door()
 
 	def unlockTheDoor(self):
 		self.beep.unlock()
@@ -14,6 +14,12 @@ class RPi_Action:
 		self.beep.lock()
 
 
+
+class Door:
+	def open(self):
+		pass
+	def close(self):
+		pass
 
 
 class Beeper:

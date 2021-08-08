@@ -3,22 +3,36 @@ import pyrebase
 import requests
 from Messenger import MessageTemplate
 from datetime import datetime
-from RPi_Action import RPi_Action
+# from RPi_Action import RPi_Action
 from CONF import auth
 
 
 # URL = 'http://192.168.31.10:8000'
 URL = 'https://facenet-facerecognition.herokuapp.com'
+# URL = 'https://feb5f636-2302-493e-b51a-c153b27177a6.id.repl.co'
 
+
+with open('userInfo', 'r') as f:
+	adminID = f.read()
 
 
 class Action:
 	def __init__(self):
-		self.message = MessageTemplate()
+		self.message = MessageTemplate(adminID)
 		self.recognition_server = URL
 		firebase = pyrebase.initialize_app(auth.FIREBASE_CONF)
 		self.storage = firebase.storage()
-		self.rasp_pi = RPi_Action()
+		self.db = firebase.database()
+		# self.rasp_pi = RPi_Action()
+		self.listen()
+
+
+	def listen(self):
+		def stream_handler(msg):
+			if msg['event']=='patch':
+				print(msg['data'])
+				self.db.child(adminID).update({'command': '', 'received': True})
+		self.listener = self.db.child(adminID).stream(stream_handler)
 
 
 	def cv2ToImage(self, frame):
@@ -38,13 +52,13 @@ class Action:
 		return resp.json()
 
 	def unauthorized(self, image_frame=None):
-		self.rasp_pi.beep.unAuth()
+		# self.rasp_pi.beep.unAuth()
 		image = self.cv2ToImage(image_frame)
 		resp = self.message.genericTemplate(
 			title="Attention!",
 			subtitle="Unknown person in your doorstep.",
 			image_url=self.makeImageURL(image),
-			buttons=[{'title': 'Open Door'}, {'title': 'Set Alert'}]
+			buttons=[{'title': 'Open Door', 'action': 'OPEN'}, {'title': 'Set Alert', 'action': 'ALERT'}]
 		)
 
 	def authorized(self, image_frame=None):
@@ -53,5 +67,5 @@ class Action:
 			title="Welcome Home!",
 			subtitle="Welcome back admin.",
 			image_url=self.makeImageURL(image),
-			buttons=[{'title': 'Lock The Door'}]
+			buttons=[{'title': 'Lock The Door', 'action': 'CLOSE'}]
 		)

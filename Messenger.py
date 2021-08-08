@@ -3,17 +3,15 @@ import json
 from CONF import auth
 
 
-with open('userInfo', 'r') as f:
-	adminID = f.read()
-
 
 class MessageTemplate():
-	def __init__(self):
+	def __init__(self, adminID):
 		token = auth.BOT_TOKEN
+		self.senderID = adminID
 		self.url = "https://graph.facebook.com/v2.6/me/messages?access_token={}".format(token)
 
 
-	def genericTemplate(self, senderID=adminID, title=None, subtitle=None, image_url=None, buttons=[]):
+	def genericTemplate(self, title=None, subtitle=None, image_url=None, buttons=[]):
 		button_list = [{
 				"type": "postback",
 				"title": btn['title'],
@@ -21,7 +19,7 @@ class MessageTemplate():
 			} for btn in buttons]
 
 		temp = {
-			"recipient":{"id": senderID},
+			"recipient":{"id": self.senderID},
 			"message":{
 				"attachment":{
 					"type":"template",

@@ -11,7 +11,7 @@ from process_image import ProcessImage
 FRAME_SIZE = 720	# Video frame width
 MAX_EMPTY = 20		# Number of frame without any faces to stop capturing video
 MAX_ATTEMPT = 5		# Try to recognize person
-blur_level = 100    # Image maximum blur level to send request to recognition server (less value means more blur)
+blur_level = 150    # Image maximum blur level to send request to recognition server (less value means more blur)
 MIN_CONF_LEVEL = 95 # Minimum confidence level to unlock the system
 UNLOCK_TIME = 10.0  # System unlock time after recognition successful
 
@@ -95,7 +95,7 @@ class Main:
 
 			self.skipFrame(.5)
 
-			cv2.imshow('Camera Output', frame)
+			# cv2.imshow('Camera Output', frame)
 			if cv2.waitKey(1) & 0xFF == ord('q') or self.attempt>MAX_ATTEMPT or AUTHORIZED or frame_with_no_face>MAX_EMPTY:
 				print('Stop capturing.')
 				break
@@ -111,7 +111,8 @@ class Main:
 			if action == 1:
 				self.capture()
 			else:
-				print('Exiting the program.')
+				print('Exiting the program')
+				self.action.listener.close()
 				break
 
 	def __call__(self):
