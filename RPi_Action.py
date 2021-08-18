@@ -1,4 +1,5 @@
-from gpiozero import Buzzer
+from gpiozero import Buzzer, DistanceSensor
+from time import sleep
 
 
 
@@ -24,7 +25,7 @@ class Door:
 
 class Beeper:
 	def __init__(self):
-		self.bz = Buzzer(3)		# GPIO 3 for beep
+		self.bz = Buzzer(26)		# GPIO26 for beep
 
 
 	def lock(self):
@@ -35,3 +36,19 @@ class Beeper:
 
 	def unAuth(self):
 		self.bz.beep(on_time=0.5, off_time=0.3, n=3, background=True)
+
+
+class DistanceMeasure:
+	def __init__(self):				# GPIO17 and GPIO18 for trigger and echo
+		self.sensor = DistanceSensor(echo=18, trigger=17, max_distance=1.4, queue_len=1)
+
+	def start():
+		return self.sensor.wait_for_in_range()
+
+
+
+
+def start(t):
+	for i in range(t):
+		print(sensore.distance*100)
+		sleep(1)

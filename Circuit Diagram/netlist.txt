@@ -1,0 +1,5 @@
+* Netlist created with www.circuit-diagram.org
+* 
+'Ultrasonic Distance Sensor
+'buzzer a:0 b:1
+'Raspberry Pi A+ / B+, 2 and Zero GPIO #20:2 #25:3 #18:0 #5:4 #12:5 #19:1
