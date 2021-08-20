@@ -119,7 +119,7 @@ class Main:
 	def __call__(self):
 		while True:
 			if self.rpi.check_range.start():
-				self.rpi.single()
+				self.rpi.beep.single()
 				self.capture()
 
 
