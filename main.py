@@ -107,16 +107,16 @@ class Main:
 		cv2.destroyAllWindows()
 
 
-	def start(self):
-		print('System is ready')
-		while True:
-			action = int(input('\n1. Start video capture\n2. Exit\n\nChoose: '))
-			if action == 1:
-				self.capture()
-			else:
-				print('Exiting the program')
-				self.action.listener.close()
-				break
+	# def start(self):
+	# 	print('System is ready')
+	# 	while True:
+	# 		action = int(input('\n1. Start video capture\n2. Exit\n\nChoose: '))
+	# 		if action == 1:
+	# 			self.capture()
+	# 		else:
+	# 			print('Exiting the program')
+	# 			self.action.listener.close()
+	# 			break
 
 	def __call__(self):
 		while True:

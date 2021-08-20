@@ -7,8 +7,8 @@ from CONF import auth
 
 
 # URL = 'http://192.168.31.10:8000'
-URL = 'https://facenet-facerecognition.herokuapp.com'
-# URL = 'https://feb5f636-2302-493e-b51a-c153b27177a6.id.repl.co'
+# URL = 'https://facenet-facerecognition.herokuapp.com'
+URL = 'https://feb5f636-2302-493e-b51a-c153b27177a6.id.repl.co'
 
 
 
