@@ -56,6 +56,7 @@ class DistanceMeasure:
 		self.sensor = ultra_sonic
 
 	def start(self):
+		print('Checking doorstep ...')
 		return self.sensor.wait_for_in_range()
 
 

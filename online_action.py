@@ -3,7 +3,6 @@ import pyrebase
 import requests
 from Messenger import MessageTemplate
 from datetime import datetime
-from RPi_Action import RPi_Action
 from CONF import auth
 
 
@@ -24,7 +23,6 @@ class Action:
 		firebase = pyrebase.initialize_app(auth.FIREBASE_CONF)
 		self.storage = firebase.storage()
 		self.db = firebase.database()
-		self.rasp_pi = RPi_Action()
 		self.listen()
 
 
@@ -53,7 +51,6 @@ class Action:
 		return resp.json()
 
 	def unauthorized(self, image_frame=None):
-		self.rasp_pi.beep.unAuth()
 		image = self.cv2ToImage(image_frame)
 		resp = self.message.genericTemplate(
 			title="Attention!",

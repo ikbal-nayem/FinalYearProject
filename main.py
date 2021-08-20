@@ -58,6 +58,7 @@ class Main:
 				AUTHORIZED = True
 
 				# Do somthing after authentication
+				self.rpi.beep.unlock()
 				self.action.authorized(frame)
 
 				print('[\033[1;32mSUCCESS\033[0;0m]\033[32m({} {}%) unlocking the system for {} sec\033[0m'.format(face['top_prediction']['label'], confidence, UNLOCK_TIME))
@@ -70,6 +71,7 @@ class Main:
 				print('[\033[1;31mUNAUTHORIZED\033[0;0m] Sending message to the admin...')
 				
 				# Do something about unauthorized person
+				self.rpi.beep.unAuth()
 				self.action.unauthorized(frame)
 
 
@@ -118,7 +120,7 @@ class Main:
 
 	def __call__(self):
 		while True:
-			if self.rpi.check_range.start():
+			if not AUTHORIZED and self.rpi.check_range.start():
 				self.rpi.beep.single()
 				self.capture()
 
