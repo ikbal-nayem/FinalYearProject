@@ -5,6 +5,7 @@ import time
 import threading as th
 from online_action import Action
 from process_image import ProcessImage
+from RPi_Action import RPi_Action
 
 ######################## Settings ############################
 
@@ -14,6 +15,7 @@ MAX_ATTEMPT = 5		# Try to recognize person
 blur_level = 150    # Image maximum blur level to send request to recognition server (less value means more blur)
 MIN_CONF_LEVEL = 95 # Minimum confidence level to unlock the system
 UNLOCK_TIME = 10.0  # System unlock time after recognition successful
+VIDEO_CAPTURE = "test_video.mp4"
 
 ##############################################################
 
@@ -29,13 +31,13 @@ def setUnathorized():
 
 
 class Main:
-
 	def __init__(self):
 		self.process = ProcessImage(MIN_CONF_LEVEL, blur_level, FRAME_SIZE)
 		self.action = Action()
 		self.SKIP = False
 		self.attempt = 1
 		self.frame_with_no_face = 0
+		self.rpi = RPi_Action()
 
 
 	def skipFrame(self, skip_time):
@@ -75,8 +77,7 @@ class Main:
 		self.attempt = 1
 		frame_with_no_face = 0
 		print('Start video capturing...')
-		capture = cv2.VideoCapture("test_video.mp4")
-		# capture = cv2.VideoCapture("http://192.168.31.10:8888")
+		capture = cv2.VideoCapture(VIDEO_CAPTURE)
 		while True:
 			success, frame = capture.read()
 			if not success:
@@ -97,7 +98,7 @@ class Main:
 
 			# cv2.imshow('Camera Output', frame)
 			if cv2.waitKey(1) & 0xFF == ord('q') or self.attempt>MAX_ATTEMPT or AUTHORIZED or frame_with_no_face>MAX_EMPTY:
-				print('Stop capturing.')
+				print('Stoped capturing')
 				break
 
 		capture.release()
@@ -116,12 +117,15 @@ class Main:
 				break
 
 	def __call__(self):
-		self.capture()
+		while True:
+			if self.rpi.check_range.start():
+				self.capture()
 
 
 
 
 if __name__ == "__main__":
 	main = Main()
-	main.start()
+	# main.start()
+	main()
 
