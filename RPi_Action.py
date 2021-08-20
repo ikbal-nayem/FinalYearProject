@@ -2,12 +2,17 @@ from gpiozero import Buzzer, DistanceSensor
 from time import sleep
 
 
+# GPIO26 for beep
+buzzer = Buzzer(26)
+# GPIO17 and GPIO18 for trigger and echo
+ultra_sonic = DistanceSensor(echo=18, trigger=17, max_distance=1.4, queue_len=1)
+
 
 class RPi_Action:
 	def __init__(self):
 		self.beep = Beeper()
 		self.door = Door()
-		self.check_range = DistanceMeasure(door_range=1.4)
+		self.check_range = DistanceMeasure()
 
 	def unlockTheDoor(self):
 		self.beep.unlock()
@@ -29,7 +34,10 @@ class Door:
 
 class Beeper:
 	def __init__(self):
-		self.bz = Buzzer(26)		# GPIO26 for beep
+		self.bz = buzzer
+
+	def single(self):
+		self.bz.beep(on_time=0.2, n=1, background=True)
 
 	def lock(self):
 		self.bz.beep(on_time=0.1, n=1, background=True)
@@ -44,10 +52,10 @@ class Beeper:
 
 
 class DistanceMeasure:
-	def __init__(self, door_range=1.5):		# GPIO17 and GPIO18 for trigger and echo
-		self.sensor = DistanceSensor(echo=18, trigger=17, max_distance=door_range, queue_len=1)
+	def __init__(self):
+		self.sensor = ultra_sonic
 
-	def start():
+	def start(self):
 		return self.sensor.wait_for_in_range()
 
 
