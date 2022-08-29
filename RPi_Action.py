@@ -8,11 +8,15 @@ buzzer = Buzzer(26)
 ultra_sonic = DistanceSensor(echo=18, trigger=17, max_distance=1.4, queue_len=1)
 
 
-class RPi_Action:
+class RPiAction:
 	def __init__(self):
 		self.beep = Beeper()
 		self.door = Door()
-		self.check_range = DistanceMeasure()
+		self.sensor = ultra_sonic
+
+	def isInDoorStep(self):
+		print('Checking doorstep ...')
+		return self.sensor.wait_for_in_range()
 
 	def unlockTheDoor(self):
 		self.beep.unlock()
@@ -21,15 +25,12 @@ class RPi_Action:
 		self.beep.lock()
 
 
-
-
 class Door:
 	def open(self):
 		pass
+
 	def close(self):
 		pass
-
-
 
 
 class Beeper:
@@ -47,18 +48,6 @@ class Beeper:
 
 	def unAuth(self):
 		self.bz.beep(on_time=0.5, off_time=0.3, n=3, background=True)
-
-
-
-
-class DistanceMeasure:
-	def __init__(self):
-		self.sensor = ultra_sonic
-
-	def start(self):
-		print('Checking doorstep ...')
-		return self.sensor.wait_for_in_range()
-
 
 
 
