@@ -3,15 +3,15 @@ import cv2
 
 class ProcessImage:
 
-	def __init__(self, MIN_CONF_LEVEL, blur_level, FRAME_SIZE=640):
+	def __init__(self, blur_level, FRAME_SIZE=640):
 		haar_model = 'haarcascade_frontalface_default.xml'
 		self.cascade = cv2.CascadeClassifier(haar_model)
 		self.MAX_WIDTH = FRAME_SIZE
-		self.MIN_CONF_LEVEL = MIN_CONF_LEVEL
 		self.blur_level = blur_level
-		self.red = (0, 10, 255)
-		self.green = (100, 200, 0)
-		self.label_color = (100,0,200)
+		# self.MIN_CONF_LEVEL = MIN_CONF_LEVEL
+		# self.red = (0, 10, 255)
+		# self.green = (100, 200, 0)
+		# self.label_color = (100,0,200)
 
 	def reshape(self, frame):
 		try:
@@ -39,15 +39,13 @@ class ProcessImage:
 		except:
 			return False, False
 
-
-	def drawRectangleAndLabel(self, frame, faces):
-		for face in faces['faces']:
-			confidence = "{:.2f}".format(face['top_prediction']['confidence']*100)
-			top = int(face['bounding_box']['top'])
-			bottom = int(face['bounding_box']['bottom'])
-			left = int(face['bounding_box']['left'])
-			right = int(face['bounding_box']['right'])
-			cv2.rectangle(frame, (left, top), (right, bottom), self.green if float(confidence)>self.MIN_CONF_LEVEL else self.red , 1)
-			face_label = "{} ({})".format(face['top_prediction']['label'], confidence) if float(confidence)>self.MIN_CONF_LEVEL else "?"
-			cv2.putText(frame, face_label, (left, top), cv2.LINE_AA, .5, self.label_color, 2)
-
+	# def drawRectangleAndLabel(self, frame, faces):
+	# 	for face in faces['faces']:
+	# 		confidence = "{:.2f}".format(face['top_prediction']['confidence']*100)
+	# 		top = int(face['bounding_box']['top'])
+	# 		bottom = int(face['bounding_box']['bottom'])
+	# 		left = int(face['bounding_box']['left'])
+	# 		right = int(face['bounding_box']['right'])
+	# 		cv2.rectangle(frame, (left, top), (right, bottom), self.green if float(confidence)>self.MIN_CONF_LEVEL else self.red , 1)
+	# 		face_label = "{} ({})".format(face['top_prediction']['label'], confidence) if float(confidence)>self.MIN_CONF_LEVEL else "?"
+	# 		cv2.putText(frame, face_label, (left, top), cv2.LINE_AA, .5, self.label_color, 2)
