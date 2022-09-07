@@ -1,4 +1,4 @@
 {
-	"server_url": "http://192.168.31.168:8000/recognize",
+	"server_url": "http://192.168.31.168:5000/recognize",
 	"user_id": 1
 }

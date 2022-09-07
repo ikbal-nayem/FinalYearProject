@@ -19,9 +19,10 @@ from datetime import datetime
 class OnlineService:
 	def __init__(self):
 		with open('app-config.json', 'r') as openfile:
-    	json_object = json.load(openfile)
-	self.recognition_server_url = json_object['server_url']
-	self.user_id = json_object['user_id']
+			json_object = json.load(openfile)
+		self.recognition_server_url = json_object['server_url']
+		print("Recognition server address -", self.recognition_server_url)
+		self.user_id = json_object['user_id']
 	# self.message = MessageTemplate(adminID)
 	# firebase = pyrebase.initialize_app(auth.FIREBASE_CONF)
 	# self.storage = firebase.storage()
@@ -48,9 +49,13 @@ class OnlineService:
 	def recognition(self, frame, notify_admin=False):
 		image = self.cv2ToImage(frame)
 		file = {"image": image}
-		resp = requests.post(self.recognition_server_url, files=file, data={
+		try:
+			resp = requests.post(self.recognition_server_url, files=file, data={
 		                     "user_id": self.user_id, "notify_admin": notify_admin})
-		return resp.json()
+			return resp.json()
+		except requests.exceptions.ConnectionError:
+			raise Exception("Connecting to {} failed".format(
+				self.recognition_server_url))
 
 	# def unauthorized(self, image_frame=None):
 	# 	image = self.cv2ToImage(image_frame)
