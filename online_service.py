@@ -6,11 +6,17 @@ from datetime import datetime
 
 class OnlineService:
     def __init__(self):
+        self.loadUserInfo()
+
+    def loadUserInfo(self):
         with open('app-config.json', 'r') as openfile:
             json_object = json.load(openfile)
         self.recognition_server_url = json_object['server_url']
-        print("Recognition server address -", self.recognition_server_url)
         self.user_id = json_object['user_id']
+        print("\033[1;33mUser ID -", self.user_id)
+        print("Recognition server address -",
+              self.recognition_server_url, "\033[0;0m")
+
 
     def cv2ToImage(self, frame):
         date = datetime.now()
