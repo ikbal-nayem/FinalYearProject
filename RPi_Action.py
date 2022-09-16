@@ -19,7 +19,7 @@ class Authentication():
 
 	def authorized(self):
 		self.isAuthorized = True
-		print("Authorized access")
+		print("\033[92mAccess granted\033[0;0m")
 		# self.action.unlockTheDoor()
 		threading.Timer(UNLOCK_TIME, self.unauthorized)
 
@@ -28,7 +28,7 @@ class Authentication():
 		# self.action.lockTheDoor()
 
 	def setAlarm(self):
-		print("Alarming")
+		print("\033[0;36mAlarming\033[0;0m")
 		return
         # self.action.beep.unAuth()
 
