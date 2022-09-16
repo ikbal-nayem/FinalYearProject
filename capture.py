@@ -19,7 +19,7 @@ image_process = ProcessImage(BLUR_LEVEL)
 
 def startCapture():
     service = OnlineService()
-    print(f'Start video capturing by index {VIDEO_CAPTURE}...')
+    print(f'Start video capturing from index {VIDEO_CAPTURE}...')
     num_of_attempt = 0
     frame_without_face = 0
     capture = cv2.VideoCapture(VIDEO_CAPTURE)
@@ -50,7 +50,7 @@ def startCapture():
             break
         time.sleep(0.7)
 
-    print("Stop capturing videos")
+    print("Stop capturing video")
     capture.release()
 
 
