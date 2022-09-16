@@ -1,6 +1,7 @@
 *.mp4
 CONF.py
 test.py
+app-config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
