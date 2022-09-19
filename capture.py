@@ -2,7 +2,7 @@ import cv2
 import time
 from process_image import ProcessImage
 from online_service import OnlineService
-from RPi_Action import authentication
+from RPi_Action import authentication, RPiAction
 
 VIDEO_CAPTURE = 0
 # Image maximum blur level to send request to recognition server (less value means more blur)
@@ -54,5 +54,15 @@ def startCapture():
     capture.release()
 
 
+def lookAtDoorstep():
+	rpi = RPiAction()
+	while True:
+		if rpi.isInDoorStep():
+			rpi.beep.single()
+			startCapture()
+
+
+th = threading.Thread(target=lookAtDoorstep)
+
 if __name__ == "__main__":
-    startCapture()
+    th.start()
