@@ -5,9 +5,9 @@ import threading
 
 UNLOCK_TIME = 5
 
-GPIO26  # for beep
+# GPIO26 for beep
 buzzer = Buzzer(26)
-GPIO17 and GPIO18  # for trigger and echo
+#GPIO17 and GPIO18 for trigger and echo
 ultra_sonic = DistanceSensor(
     echo=18, trigger=17, max_distance=1.5, queue_len=9)
 
