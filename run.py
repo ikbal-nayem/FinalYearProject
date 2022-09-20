@@ -12,7 +12,7 @@ def home():
 
 
 @app.route("/cap", methods=['GET'])
-def home():
+def capH():
     cap()
     return "Capturing"
 

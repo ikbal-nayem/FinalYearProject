@@ -78,5 +78,5 @@ def lookAtDoorstep():
 stop_thread = False
 th = threading.Thread(target=lookAtDoorstep)
 
-if __name__ == "__main__":
-    lookAtDoorstep()
+# if __name__ == "__main__":
+#     lookAtDoorstep()
