@@ -12,29 +12,6 @@ ultra_sonic = DistanceSensor(
     echo=18, trigger=17, max_distance=1.5, queue_len=9)
 
 
-class Authentication():
-    def __init__(self):
-        self.action = RPiAction()
-        self.isAuthorized = False
-
-    def authorized(self):
-        self.isAuthorized = True
-        print("\033[92mAccess granted\033[0;0m")
-        self.action.unlockTheDoor()
-        threading.Timer(UNLOCK_TIME, self.unauthorized)
-
-    def unauthorized(self):
-        self.isAuthorized = False
-        self.action.lockTheDoor()
-
-    def setAlarm(self):
-        print("\033[0;36mAlarming\033[0;0m")
-        return
-
-
-authentication = Authentication()
-
-
 class RPiAction:
     def __init__(self):
         self.beep = Beeper()
@@ -70,7 +47,24 @@ class Beeper:
         self.bz.beep(on_time=0.5, off_time=0.3, n=3, background=True)
 
 
-# def start(t):
-# 	for i in range(t):
-# 		print(sensore.distance*100)
-# 		sleep(1)
+class Authentication():
+    def __init__(self):
+        self.action = RPiAction()
+        self.isAuthorized = False
+
+    def authorized(self):
+        self.isAuthorized = True
+        print("\033[92mAccess granted\033[0;0m")
+        self.action.unlockTheDoor()
+        threading.Timer(UNLOCK_TIME, self.unauthorized)
+
+    def unauthorized(self):
+        self.isAuthorized = False
+        self.action.lockTheDoor()
+
+    def setAlarm(self):
+        print("\033[0;36mAlarming\033[0;0m")
+        return
+
+
+authentication = Authentication()
