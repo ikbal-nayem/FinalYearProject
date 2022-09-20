@@ -44,7 +44,7 @@ class Beeper:
         self.bz.beep(on_time=0.05, off_time=0.15, n=2, background=True)
 
     def unAuth(self):
-        self.bz.beep(on_time=0.5, off_time=0.3, n=3, background=True)
+        self.bz.beep(on_time=0.5, off_time=0.3, n=5, background=True)
 
 
 class Authentication():
@@ -66,7 +66,7 @@ class Authentication():
 
     def setAlarm(self):
         print("\033[0;36mAlarming\033[0;0m")
-        return
+        self.action.beep.unAuth()
 
 
 authentication = Authentication()
