@@ -72,7 +72,7 @@ def lookAtDoorstep():
             startCapture()
         global stop_thread
         if stop_thread:
-            return
+            break
 
 
 stop_thread = False
