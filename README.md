@@ -11,6 +11,9 @@ pass = password0
 ## Connect to Wifi
 Add wpa_supplicant.conf file to the boot directory.
 
+### To configure wifi connection from raspberry pi
+```sudo nano /etc/wpa_supplicant/wpa_supplicant.conf``` 
+
 wpa_supplicant.conf
 ```
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
