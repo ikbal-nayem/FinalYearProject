@@ -50,6 +50,7 @@ def startCapture():
             frame_without_face += 1
 
         if frame_without_face > MAX_FRAME_WITHOUT_FACE:
+            print("No faces found!")
             break
         time.sleep(0.7)
 
