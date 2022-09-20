@@ -66,7 +66,7 @@ def cap():
 
 
 def lookAtDoorstep():
-	while True:
+    while True:
         if rpi.isInDoorStep() and not S_CAP:
             rpi.beep.single()
             startCapture()
