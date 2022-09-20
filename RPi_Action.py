@@ -56,7 +56,9 @@ class Authentication():
         self.isAuthorized = True
         print("\033[92mAccess granted\033[0;0m")
         self.action.unlockTheDoor()
-        threading.Timer(UNLOCK_TIME, self.unauthorized)
+        # threading.Timer(UNLOCK_TIME, self.unauthorized)
+        sleep(UNLOCK_TIME)
+        self.unauthorized()
 
     def unauthorized(self):
         self.isAuthorized = False
