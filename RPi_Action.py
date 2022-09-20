@@ -9,7 +9,7 @@ UNLOCK_TIME = 5
 buzzer = Buzzer(26)
 # GPIO17 and GPIO18 for trigger and echo
 ultra_sonic = DistanceSensor(
-    echo=18, trigger=17, max_distance=1.5, queue_len=2)
+    echo=18, trigger=17, max_distance=1.5, queue_len=1)
 
 
 class RPiAction:
