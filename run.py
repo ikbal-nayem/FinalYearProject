@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import json
 from RPi_Action import authentication
+from capture import cap
 
 app = Flask(__name__)
 
@@ -8,6 +9,12 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def home():
     return "Raspberry pi script is running..."
+
+
+@app.route("/cap", methods=['GET'])
+def home():
+    cap()
+    return "Capturing"
 
 
 @app.route("/ping", methods=['GET'])

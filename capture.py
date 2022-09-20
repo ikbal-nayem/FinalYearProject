@@ -14,9 +14,11 @@ UNLOCK_TIME = 5     # Unlock time after authorized access (in second)
 
 
 print('Please wait until the system is loading...')
+S_CAP = False
 
 image_process = ProcessImage(BLUR_LEVEL)
 service = OnlineService()
+rpi = RPiAction()
 
 
 def startCapture():
@@ -55,16 +57,24 @@ def startCapture():
     capture.release()
 
 
+def cap():
+    global S_CAP
+    S_CAP = True
+    rpi.beep.single()
+    startCapture()
+    S_CAP = False
+
+
 def lookAtDoorstep():
-	rpi = RPiAction()
 	while True:
-		if rpi.isInDoorStep():
+		if rpi.isInDoorStep() and not S_CAP:
 			rpi.beep.single()
 			startCapture()
 
 
 th = threading.Thread(target=lookAtDoorstep)
+th.start()
+
 
 if __name__ == "__main__":
-    # th.start()
     lookAtDoorstep()
