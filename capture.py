@@ -16,10 +16,10 @@ UNLOCK_TIME = 5     # Unlock time after authorized access (in second)
 print('Please wait until the system is loading...')
 
 image_process = ProcessImage(BLUR_LEVEL)
+service = OnlineService()
 
 
 def startCapture():
-    service = OnlineService()
     print(f'Start video capturing from index {VIDEO_CAPTURE}...')
     num_of_attempt = 0
     frame_without_face = 0

@@ -1,3 +1,4 @@
+from gpiozero.pins.pigpio import PiGPIOFactory
 from gpiozero import Buzzer, DistanceSensor
 from time import sleep
 import threading
@@ -9,7 +10,7 @@ UNLOCK_TIME = 5
 buzzer = Buzzer(26)
 #GPIO17 and GPIO18 for trigger and echo
 ultra_sonic = DistanceSensor(
-    echo=18, trigger=17, max_distance=1.5, queue_len=2)
+    echo=18, trigger=17, max_distance=1.5, queue_len=2, pin_factory=PiGPIOFactory())
 
 
 class RPiAction:
