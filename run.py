@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import json
 from RPi_Action import authentication
-from capture import cap
+from capture import cap, th, stop_thread
 
 app = Flask(__name__)
 
@@ -44,4 +44,7 @@ def command(action=None):
     return jsonify({"success": False, "message": "Unknown command"})
 
 if __name__ == "__main__":
+    th.start()
     app.run(host="0.0.0.0", debug=True, port=5001)
+    stop_thread = True
+    th.join()

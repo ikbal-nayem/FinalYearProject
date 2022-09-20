@@ -67,14 +67,16 @@ def cap():
 
 def lookAtDoorstep():
 	while True:
-		if rpi.isInDoorStep() and not S_CAP:
-			rpi.beep.single()
-			startCapture()
+        if rpi.isInDoorStep() and not S_CAP:
+            rpi.beep.single()
+            startCapture()
+        global stop_thread
+        if stop_thread:
+            return
 
 
+stop_thread = False
 th = threading.Thread(target=lookAtDoorstep)
-th.start()
-
 
 if __name__ == "__main__":
     lookAtDoorstep()
