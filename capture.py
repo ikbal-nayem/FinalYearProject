@@ -1,5 +1,6 @@
 import cv2
 import time
+import threading
 from process_image import ProcessImage
 from online_service import OnlineService
 from RPi_Action import authentication, RPiAction
