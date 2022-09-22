@@ -8,18 +8,18 @@ UNLOCK_TIME = 5
 # GPIO26 for beep
 buzzer = Buzzer(26)
 # GPIO17 and GPIO18 for trigger and echo
-ultra_sonic = DistanceSensor(
-    echo=18, trigger=17, max_distance=1.5, queue_len=1)
+# ultra_sonic = DistanceSensor(
+#     echo=18, trigger=17, max_distance=1.5, queue_len=1)
 
 
 class RPiAction:
     def __init__(self):
         self.beep = Beeper()
-        self.sonic = ultra_sonic
+    #     self.sonic = ultra_sonic
 
-    def isInDoorStep(self):
-        print('Checking doorstep ...')
-        return self.sonic.wait_for_in_range()
+    # def isInDoorStep(self):
+    #     print('Checking doorstep ...')
+    #     return self.sonic.wait_for_in_range()
 
     def unlockTheDoor(self):
         self.beep.unlock()
