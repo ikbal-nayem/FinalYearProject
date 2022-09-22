@@ -60,6 +60,7 @@ def startCapture():
 
 def cap():
     global S_CAP
+    print('Checking doorstep ...')
     S_CAP = True
     rpi.beep.single()
     startCapture()
