@@ -1,4 +1,4 @@
-from gpiozero import Buzzer, DistanceSensor
+from gpiozero import Buzzer
 from time import sleep
 import threading
 
