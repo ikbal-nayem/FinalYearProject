@@ -46,4 +46,5 @@ def command(action=None):
 if __name__ == "__main__":
     # th.start()
     app.run(host="0.0.0.0", debug=False, port=5001)
+    print('Checking doorstep ...')
     # th.join()
