@@ -10,7 +10,6 @@ VIDEO_CAPTURE = 0
 BLUR_LEVEL = 110
 MAX_ATTEMPT = 3		# Try to recognize a person
 MAX_FRAME_WITHOUT_FACE = 20		# Stop capturing images after n number of empty frame
-UNLOCK_TIME = 5     # Unlock time after authorized access (in second)
 
 
 print('Please wait until the system is loading...')
