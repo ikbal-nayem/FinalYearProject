@@ -4,7 +4,6 @@ from RPi_Action import authentication
 from capture import cap
 
 app = Flask(__name__)
-app.logger.disabled = True
 
 @app.route("/", methods=['GET'])
 def home():
