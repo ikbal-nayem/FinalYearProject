@@ -44,6 +44,7 @@ def startCapture():
                 break
             num_of_attempt += 1
             if num_of_attempt == MAX_ATTEMPT:
+                print('\033[91mAccess denied.\033[0;0m')
                 authentication.unauthorized()
         else:
             frame_without_face += 1
