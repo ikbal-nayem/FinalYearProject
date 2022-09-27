@@ -30,7 +30,6 @@ def setUNA():
 def startCapture():
     print(f'Start video capturing from index {VIDEO_CAPTURE}...')
     global UNA
-    UNA = False
     num_of_attempt = 0
     frame_without_face = 0
     capture = cv2.VideoCapture(VIDEO_CAPTURE)
@@ -64,6 +63,7 @@ def startCapture():
         time.sleep(0.7)
 
     print("Stop capturing video")
+    UNA = False
     capture.release()
 
 

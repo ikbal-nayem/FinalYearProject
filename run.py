@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import json
 from RPi_Action import authentication
-from capture import cap
+from capture import cap, setUNA
 
 app = Flask(__name__)
 
@@ -15,6 +15,11 @@ def capH():
     cap()
     return "Capturing"
 
+
+@app.route("/una", methods=['GET'])
+def una():
+    setUNA()
+    return "setting"
 
 @app.route("/ping", methods=['GET'])
 def ping():
