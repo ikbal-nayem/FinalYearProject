@@ -60,7 +60,7 @@ def startCapture():
         if frame_without_face > MAX_FRAME_WITHOUT_FACE:
             print("No faces found!")
             break
-        time.sleep(0.7)
+        time.sleep(0.8)
 
     print("Stop capturing video")
     UNA = False
