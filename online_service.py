@@ -24,12 +24,12 @@ class OnlineService:
         image = cv2.imencode(".jpg", frame)[1]
         return (image_name, image.tobytes(), 'image/jpeg', {'Expires': '0'})
 
-    def recognition(self, frame, notify_admin=False):
+    def recognition(self, frame, notify_admin=False, una=False):
         image = self.cv2ToImage(frame)
         file = {"image": image}
         try:
             resp = requests.post(self.recognition_server_url, files=file, data={
-                "user_id": self.user_id, "notify_admin": notify_admin})
+                "user_id": self.user_id, "notify_admin": notify_admin, "una": una})
             return resp.json()
         except requests.exceptions.ConnectionError:
             raise Exception("Connecting to {} failed".format(
