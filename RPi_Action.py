@@ -27,14 +27,14 @@ class RPiAction:
         self.beep.unlock()
         print("Door open")
         motor.forward()
-        sleep(.6)
+        sleep(.8)
         motor.stop()
 
     def lockTheDoor(self):
         self.beep.lock()
         print("Door closed")
         motor.backward()
-        sleep(.6)
+        sleep(.8)
         motor.stop()
 
 
