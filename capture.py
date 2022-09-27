@@ -15,13 +15,22 @@ MAX_FRAME_WITHOUT_FACE = 20		# Stop capturing images after n number of empty fra
 print('Please wait until the system is loading...')
 S_CAP = False
 
+UNA = False
+
 image_process = ProcessImage(BLUR_LEVEL)
 service = OnlineService()
 rpi = RPiAction()
 
 
+def setUNA():
+    global UNA
+    UNA = True
+    return
+
 def startCapture():
     print(f'Start video capturing from index {VIDEO_CAPTURE}...')
+    global UNA
+    UNA = False
     num_of_attempt = 0
     frame_without_face = 0
     capture = cv2.VideoCapture(VIDEO_CAPTURE)
@@ -38,7 +47,7 @@ def startCapture():
                 num_of_attempt+1))
             # cv2.imwrite(f"img{num_of_attempt}.jpg", frame)
             resp = service.recognition(
-                frame, notify_admin=(num_of_attempt == MAX_ATTEMPT-1))
+                frame, notify_admin=(num_of_attempt == MAX_ATTEMPT-1), una=UNA)
             if resp.get('isAuthorized'):
                 authentication.authorized()
                 break

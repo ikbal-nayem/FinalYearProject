@@ -1,4 +1,4 @@
-from gpiozero import Buzzer
+from gpiozero import Buzzer, Motor
 from time import sleep
 import threading
 
@@ -7,6 +7,7 @@ UNLOCK_TIME = 5
 
 # GPIO26 for beep
 buzzer = Buzzer(26)
+motor = Motor(forward=5, backward=6)
 # GPIO17 and GPIO18 for trigger and echo
 # ultra_sonic = DistanceSensor(
 #     echo=18, trigger=17, max_distance=1.5, queue_len=1)
@@ -24,10 +25,16 @@ class RPiAction:
     def unlockTheDoor(self):
         self.beep.unlock()
         print("Door open")
+        motor.forward()
+        sleep(5)
+        motor.stop()
 
     def lockTheDoor(self):
         self.beep.lock()
         print("Door closed")
+        motor.backward()
+        sleep(5)
+        motor.stop()
 
 
 class Beeper:
