@@ -66,11 +66,12 @@ class Authentication():
         self.action.unlockTheDoor()
         # threading.Timer(UNLOCK_TIME, self.unauthorized)
         sleep(UNLOCK_TIME)
-        self.unauthorized()
+        self.unauthorized(isLock=True)
 
-    def unauthorized(self):
+    def unauthorized(self, isLock=False):
         self.isAuthorized = False
-        self.action.lockTheDoor()
+        if isLock:
+            self.action.lockTheDoor()
 
     def setAlarm(self):
         print("\033[0;36mAlarming\033[0;0m")
